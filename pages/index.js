@@ -1,7 +1,44 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import {useEffect} from 'react'
+
 
 export default function Home() {
+
+  async function getApp(){
+    var requestOptions = {
+      method: 'GET',
+      headers: {
+        "Authorization": `Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbklkIjoiNWZhZTQyYjIzZTY3YjkwMDA4Yjg1OGQxIiwiaWF0IjoxNjA1MjU1ODU4fQ.nG6UA1gFzLcLdRodHgA32LF0imtuAzlOqwaK6UcmU4BL0eDTZHDFjmlcG-Y7VlywwGj-f9OTt-3ro2Y-GlJXmw`
+      }
+  };
+  
+  var url = `https://rootsiodev.com/proxy/v1.0/developer/getApps`
+  fetch(url, requestOptions)
+  .then(response => response.text())
+  .then(result => {
+      console.log(result)
+      var r = JSON.parse(result)
+      if(r.code === 200){
+          console.log(r.responses)
+          
+      }
+      else if (r.code === 401 ||r.code === 400){
+          // AUTH_LOGOUT()
+      }
+      else {
+          console.log(r.message)
+      }
+  })
+  .catch(error => {
+      console.log(error)
+  });
+  }
+
+  useEffect(()=> {
+    getApp()
+  }, [])
+
   return (
     <div className={styles.container}>
       <Head>
